@@ -31,7 +31,6 @@ function QuizView({
   answerQuestion,
   answerTempQuestion,
   isTurn,
-
   showAnswer,
 }: {
   questions: Slide[] | undefined;
@@ -40,7 +39,6 @@ function QuizView({
   answerQuestion: (answer: string[]) => Promise<void>;
   answerTempQuestion: (answer: string) => Promise<void>;
   isTurn: string;
-
   showAnswer: boolean;
 }) {
   if (!questions || !participantData) return <Spinner />;
@@ -155,7 +153,13 @@ export default function ParticipantLogic() {
     participantAvatar: string,
     participantCollection: string
   ) => {
-    if (!quizCode || !participantName || !participantAvatar || !participantCollection) return;
+    if (
+      !quizCode ||
+      !participantName ||
+      !participantAvatar ||
+      !participantCollection
+    )
+      return;
     try {
       const createdId = await ParticipantService.addParticipant(
         quizCode,
@@ -274,7 +278,8 @@ export default function ParticipantLogic() {
       </div>
 
       {/* Bottom: Team info */}
-      {showAnswer && <TeamInfo participant={participantData} />}
+      {showAnswer ||
+        (currentSlide === 0 && <TeamInfo participant={participantData} />)}
     </div>
   );
 }

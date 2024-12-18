@@ -1,7 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useGetAuthenticatedUser from '@/hooks/useGetAuthenticatedUser';
 import { userService } from '@/services/users';
@@ -9,7 +8,11 @@ import { InfoIcon, Dices } from 'lucide-react';
 import Avatar from '@/Avatar';
 
 interface CreateParticipantProps {
-  handleAddParticipant: (name: string, avatar: string, collectionName: string) => void;
+  handleAddParticipant: (
+    name: string,
+    avatar: string,
+    collectionName: string
+  ) => void;
 }
 
 function createRandomId() {
@@ -29,7 +32,7 @@ export default function CreateParticipant({
     avatar: string;
     collectionName: string;
     isLoggedIn: boolean;
-  }>({ username: '', avatar: '', isLoggedIn: false, collectionName: "" });
+  }>({ username: '', avatar: '', isLoggedIn: false, collectionName: '' });
   const [guestName, setGuestName] = useState('');
   const [guestAvatar, setGuestAvatar] = useState(createRandomId());
   const [addingUser, setAddingUser] = useState(false);
@@ -51,14 +54,14 @@ export default function CreateParticipant({
         }
 
         if (data) {
-          console.log(data)
+          console.log(data);
           setUser({
             username: data.username || '',
             avatar: data.avatar || createRandomId(),
             isLoggedIn: true,
-            collectionName: data.collectionName
+            collectionName: data.collectionName,
           });
-        } 
+        }
       } catch (error) {
         console.error('Failed to initialize user:', error);
       }
@@ -70,7 +73,7 @@ export default function CreateParticipant({
   const handleSubmit = (userType: 'me' | 'guest') => {
     const nameToUse = userType === 'me' ? user.username : guestName;
     const avatarToUse = userType === 'me' ? user.avatar : guestAvatar;
-    const collectiontoUse = userType ==="me" ? user.collectionName: "micah"
+    const collectiontoUse = userType === 'me' ? user.collectionName : 'micah';
 
     if (!nameToUse) {
       setShowError(true);
@@ -82,7 +85,7 @@ export default function CreateParticipant({
     }
 
     setAddingUser(true);
-    handleAddParticipant(nameToUse, avatarToUse,collectiontoUse );
+    handleAddParticipant(nameToUse, avatarToUse, collectiontoUse);
 
     setTimeout(() => {
       setAddingUser(false);
@@ -106,7 +109,10 @@ export default function CreateParticipant({
               value="me"
               className="flex flex-col items-center justify-center space-y-4"
             >
-              <Avatar avatarString={user.avatar} collectionName={user.collectionName} />
+              <Avatar
+                avatarString={user.avatar}
+                collectionName={user.collectionName}
+              />
               <Input
                 disabled
                 className="text-[#333333] text-center font-display md:text-lg text-lg py-8 px-12 w-full shadow-lg"
@@ -127,15 +133,16 @@ export default function CreateParticipant({
               <Avatar avatarString={guestAvatar} collectionName="micah" />
               <Button
                 onClick={() => setGuestAvatar(createRandomId())}
-                className="m-2 bg-yellow-300 hover:bg-yellow-400 flex items-center justify-center"
+                className="m-2 bg-yellow-300 hover:bg-yellow-400 flex items-center justify-center p-2 rounded-lg"
                 title="Randomize Avatar"
+                isInteractive
               >
-                <p className="font-display text-black  p-2">New Avatar</p>
-                <Dices className="w-6 h-6 text-black" />
+                <p className="font-display text-black">New Avatar</p>
+                <Dices className="w-6 h-6 text-black ml-1" />
               </Button>
               <Input
                 placeholder="Guest Name"
-                className="text-[#333333] text-center font-display md:text-lg text-lg py-8 px-12 w-full shadow-lg"
+                className="text-[#333333] text-center font-display md:text-lg text-2xl py-8 px-12 w-full shadow-lg"
                 value={guestName}
                 onChange={(e) => setGuestName(e.target.value)}
                 maxLength={15}
@@ -161,15 +168,16 @@ export default function CreateParticipant({
           <Avatar avatarString={guestAvatar} collectionName="micah" />
           <Button
             onClick={() => setGuestAvatar(createRandomId())}
-            className="m-2 bg-yellow-300 hover:bg-yellow-400 flex items-center justify-center"
+            className="m-2 bg-yellow-300 hover:bg-yellow-400 flex items-center justify-center p-2 rounded-lg"
             title="Randomize Avatar"
+            isInteractive
           >
             <p className="font-display text-black">New Avatar</p>
-            <Dices className="w-6 h-6 text-black" />
+            <Dices className="w-6 h-6 text-black ml-1" />
           </Button>
           <Input
             placeholder="Enter Name"
-            className="text-[#333333] text-center font-display md:text-lg text-lg py-8 px-12 w-full shadow-lg"
+            className="text-[#333333] text-center font-display md:text-2xl text-2xl py-8 px-12 w-full shadow-lg"
             value={guestName}
             onChange={(e) => setGuestName(e.target.value)}
             maxLength={15}

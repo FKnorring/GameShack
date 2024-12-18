@@ -31,6 +31,7 @@ export function Participant({
       <div className="flex flex-1 flex-col items-center justify-center font-display">
         <Button
           className="w-80 h-80 rounded-full text-4xl bg-red-600 text-white"
+          isInteractive
           onClick={() => {
             answerTempQuestion('');
             console.log('click');

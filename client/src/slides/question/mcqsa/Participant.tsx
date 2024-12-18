@@ -1,5 +1,6 @@
-import { MCQSASlide } from "@/models/Quiz";
-import { getColor } from "../base/QuizColors";
+import { MCQSASlide } from '@/models/Quiz';
+import { getColor } from '../base/QuizColors';
+import { Button } from '@/components/ui/button';
 
 interface Options {
   id: string;
@@ -20,17 +21,19 @@ export function Participant({ slide, answerQuestion }: McqsaViewProps) {
       </h1>
       <div className="grid grid-cols-2 gap-6 w-full max-w-3xl">
         {slide.options.map((option: Options, index: number) => (
-          <div
+          <Button
             key={option.id}
-            onClick={() => answerQuestion([option.text])} // Answer instantly on click
+            onClick={() => answerQuestion([option.text])}
+            isInteractive
+            inGrid
             style={{
               backgroundColor: getColor(index),
-              cursor: "pointer",
+              cursor: 'pointer',
             }}
             className="flex items-center justify-center text-2xl text-white font-display h-24 rounded-lg hover:ring-4 hover:ring-white"
           >
             {option.text}
-          </div>
+          </Button>
         ))}
       </div>
     </div>

@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { RankSlide } from '@/models/Quiz';
 import { rankColors } from '../base/QuizColors';
 import { getSlideComponents } from '@/slides/utils';
+import { cn } from '@/lib/utils';
 
 interface RankViewProps {
   slide: RankSlide;
@@ -37,7 +38,7 @@ function DraggableItem({ text, index }: { text: string; index: number }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className="flex items-center w-full p-2.5 rounded-lg shadow-md bg-[#F4F3F2] text-xl font-display cursor-grab text-[#333333]"
+      className="flex items-center w-full p-2.5 rounded-lg shadow-md bg-[#F4F3F2] text-xl font-display cursor-grab text-black"
       style={style}
     >
       {text}
@@ -60,16 +61,16 @@ function DroppableContainer({
   return (
     <div
       ref={setNodeRef}
-      className={`p-0 rounded-lg w-full ${
-        isOver ? 'bg-blue-200' : 'bg-gray-100'
-      } shadow-md`}
+      className={cn(
+        'p-0.5 rounded-xl w-full border-primary/80 border-dashed border-2',
+        isOver && 'bg-primary/50 border-primary'
+      )}
     >
       {children}
     </div>
   );
 }
 
-// Main RankView component
 export function Participant({ slide, answerQuestion }: RankViewProps) {
   const [currentRanking, setCurrentRanking] = useState<string[]>([]);
 
@@ -110,9 +111,10 @@ export function Participant({ slide, answerQuestion }: RankViewProps) {
 
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   const SlideComponent = getSlideComponents(slide);
+
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="flex flex-col items-center justify-center  w-full p-4">
+      <div className="flex flex-col items-center justify-center w-full p-4">
         <div className="flex flex-col items-center w-full max-w-md space-y-4">
           <div className="bg-white items-center rounded text-wrap p-3 max-w-4/5 flex flex-row space-x-1">
             <SlideComponent.Info.icon className="w-8 h-8 text-black" />
@@ -129,7 +131,7 @@ export function Participant({ slide, answerQuestion }: RankViewProps) {
                   style={{
                     backgroundColor: rankColors(),
                   }}
-                  className="font-display text-2xl font-bold text-center p-2.5 rounded-lg text-[#F4F3F2] w-20"
+                  className="font-display text-2xl font-bold text-center p-2.5 rounded-lg text-[#F4F3F2] w-14"
                 >
                   {index + 1}
                 </h2>
@@ -142,7 +144,8 @@ export function Participant({ slide, answerQuestion }: RankViewProps) {
 
           <Button
             onClick={handleAnswerQuestion}
-            className="w-[60%] py-8 text-xl font-display text-white"
+            isInteractive
+            className="w-full h-12 text-xl font-display text-white"
           >
             Submit Answer
           </Button>
